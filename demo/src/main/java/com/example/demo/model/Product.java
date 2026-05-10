@@ -1,40 +1,51 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id ;
+    private int id;
     private String name;
-    private String des;
+    private String description; // or 'desc', check your data.sql
     private String brand;
     private BigDecimal price;
     private String category;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-mm-yyyy")
     private Date releaseDate;
-    private boolean available;
-    private int quantity;
+    private boolean productAvailable;
+    private int stockQuantity;
 
     private String imageName;
     private String imageType;
+
     @Lob
-    private byte[] imageDate;
+    @Column(length = 1000000)
+    private byte[] imageData;
 
+    // These manual methods bypass any Lombok issues
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
 
+    public byte[] getImageData() {
+        return imageData;
+    }
 
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
 }

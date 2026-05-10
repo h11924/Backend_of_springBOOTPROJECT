@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.io.IOException;
 
 @Service
 
@@ -28,7 +29,14 @@ public class ProductService {
     public Product addProduct(Product product, MultipartFile imageFile) throws IOException {
         product.setImageName(imageFile.getOriginalFilename());
         product.setImageType(imageFile.getContentType());
-        product.setImageDate(imageFile.getBytes());
+        product.setImageData(imageFile.getBytes());
+        return repo.save(product);
+    }
+    public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
+        product.setId(id);
+        product.setImageData(imageFile.getBytes());
+        product.setImageName(imageFile.getOriginalFilename());
+        product.setImageType(imageFile.getContentType());
         return repo.save(product);
     }
 }

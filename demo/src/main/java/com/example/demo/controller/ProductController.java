@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,7 @@ public class ProductController {
     @GetMapping("/product/{productId}/image")
     public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId ){
         Product product=service.getProductById(productId);
-        byte[] imageFile =product.getImageDate();
+        byte[] imageFile =product.getImageData();
 
         return ResponseEntity.ok().contentType(MediaType.valueOf(product.getImageType()))
                 .body(imageFile);
@@ -62,6 +64,18 @@ public class ProductController {
         //we need to learn more about this code now i dont know everything yet
 
 
+    }
+    //update product
+    @PutMapping("/product/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable int id ,@RequestPart Product product,@RequestPart MultipartFile imageFile  ) throws IOException {
+        Product product1 = service.updateProduct(id,product,imageFile);
+
+        if(product1!= null)
+            return new ResponseEntity<>("Updated",HttpStatus.OK);
+
+        else
+            return new ResponseEntity<>("Failed to update ",HttpStatus.BAD_REQUEST);
+        
     }
 
 

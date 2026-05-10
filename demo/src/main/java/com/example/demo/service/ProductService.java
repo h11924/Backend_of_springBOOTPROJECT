@@ -18,4 +18,8 @@ public class ProductService {
         return repo.findAll();
 
     }
+
+    public Product getProductById(int id){
+        return repo.findById(id).orElse(null);//by this we can open and see each product
+    }
 }

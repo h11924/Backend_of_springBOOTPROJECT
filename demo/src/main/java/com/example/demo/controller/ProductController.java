@@ -1,12 +1,10 @@
 package com.example.demo.controller;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -89,6 +87,13 @@ public class ProductController {
 
             return new ResponseEntity<>("Product not found ",HttpStatus.NOT_FOUND);
 
+
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword){
+        List<Product> products =service.searchProducts(keyword);
+        return new ResponseEntity<>(products,HttpStatus.OK);
 
     }
 
